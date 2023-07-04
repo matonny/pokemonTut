@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, FlatList, Text, View } from "react-native";
+import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import {
   PaginationElem,
   PokemonSummary,
@@ -9,6 +9,17 @@ import {
 import { PokemonSummaryView } from "../Components/PokemonSummaryView";
 
 export const List = () => {
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    scrollView: {
+      marginHorizontal: 20,
+    },
+    text: {
+      fontSize: 42,
+    },
+  });
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [pokeSummaries, setPokeSummaries] = useState<PokemonSummary[]>([]);
@@ -53,7 +64,7 @@ export const List = () => {
     };
   }, []);
   return (
-    <View>
+    <View style={styles.container}>
       {isLoading && <Text> Loading </Text>}
       <FlatList
         data={pokeSummaries}
@@ -63,6 +74,7 @@ export const List = () => {
             frontUrl={item.sprites.front_default}
           />
         )}
+        style={styles.scrollView}
       ></FlatList>
     </View>
   );
