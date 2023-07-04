@@ -22,37 +22,46 @@ export const List = () => {
   });
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [endReached, setEndReached] = useState(false);
   const [pokeSummaries, setPokeSummaries] = useState<PokemonSummary[]>([]);
-  const [offset, setOffset] = useState(0);
-  const pageSize = 25;
+  const [offset, setOffset] = useState(1); //offset start with 1 because API starts with id 1
+  const pageSize = 10;
 
   const getPokemons = async () => {
-    try {
-      const rawPokemonsURL = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/?limit=${pageSize}&offset=${offset}`
-      );
-      const parsedPokemonsURL = await rawPokemonsURL.json();
-
-      const currPaginated: PaginationElem[] = parsedPokemonsURL.results.map(
-        paginationElem.parse
-      );
-      const rawPokemons = await Promise.all(
-        currPaginated.map(async (paginatedItem): Promise<PokemonSummary> => {
-          const rawPokemon = await fetch(paginatedItem.url);
-          const parsedPokemon = await rawPokemon.json();
-          console.log(parsedPokemon);
-          return pokemonSummary.parse(parsedPokemon);
-        })
-      );
-      setPokeSummaries((prevPokeSummaries) =>
-        prevPokeSummaries.concat(rawPokemons)
-      );
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-      console.log(pokeSummaries);
-    }
+    setLoading(true);
+    const getPokemonSummary = async (id: number) => {
+      try {
+        const rawPokemonSummary = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${id}/`
+        );
+        const parsedPokemonSummary = pokemonSummary.parse(
+          await rawPokemonSummary.json()
+        );
+        console.log(parsedPokemonSummary);
+        return parsedPokemonSummary;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const pokemonIds = Array(pageSize)
+      .fill(0)
+      .map((_, index) => offset + index);
+    console.log(pokemonIds);
+    const rawPokemons = await Promise.all(
+      pokemonIds.map(async (id): Promise<PokemonSummary | undefined> => {
+        return getPokemonSummary(id);
+      })
+    );
+    console.log(rawPokemons);
+    const filteredPokemons = rawPokemons.filter(
+      (item): item is PokemonSummary => !!item
+    );
+    console.log(filteredPokemons);
+    setPokeSummaries((prevPokeSummaries) =>
+      prevPokeSummaries.concat(filteredPokemons)
+    );
+    setOffset((prevOffset) => prevOffset + pageSize);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -75,6 +84,8 @@ export const List = () => {
           />
         )}
         style={styles.scrollView}
+        onEndReached={getPokemons}
+        onEndReachedThreshold={3}
       ></FlatList>
     </View>
   );
