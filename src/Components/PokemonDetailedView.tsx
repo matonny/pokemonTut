@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 import { PokemonDetails } from "../types";
-import { ActivityIndicator, Button, Image, Text, View } from "react-native";
-import { getPokemonDetailsFromCache } from "../cache";
+import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
+import {
+  getPokemonDetailsFromCache,
+  removeFavouritePokemon,
+  saveFavouritePokemon,
+} from "../cache";
 import { getPokeDetails } from "../api";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 type Props = {
   id: number;
-  isFavourite: boolean;
+  initialFavourite: boolean;
 };
 
-export const PokemonDetailedView = ({ id }: Props) => {
+export const PokemonDetailedView = ({ id, initialFavourite }: Props) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [pokeData, setPokeData] = useState<null | PokemonDetails>(null);
+  const [favourite, setFavourite] = useState(initialFavourite);
 
   useEffect(() => {
     getPokemonDetailsFromCache(id)
@@ -35,11 +40,20 @@ export const PokemonDetailedView = ({ id }: Props) => {
       {pokeData && (
         <>
           <Text>{pokeData.name}</Text>
-          <Icon
-            name={"star"}
-            color={"yellow"}
-            onPress={() => setFavourite(pokeData.id)}
-          ></Icon>
+          <Pressable
+            onPress={() => {
+              setFavourite((prevFav) => !prevFav);
+              favourite
+                ? removeFavouritePokemon()
+                : saveFavouritePokemon(pokeData.id);
+            }}
+          >
+            <Icon
+              name={"star"}
+              size={25}
+              color={favourite ? "yellow" : "grey"}
+            ></Icon>
+          </Pressable>
           <Image
             source={{
               width: 100,
