@@ -1,5 +1,6 @@
 import { Text } from "react-native";
+import { PokemonDetailedView } from "../Components/PokemonDetailedView";
 
 export const Favourite = () => {
-  return <Text>Favourite pokemon</Text>;
+  return <PokemonDetailedView id={1} isFavourite={false} />;
 };

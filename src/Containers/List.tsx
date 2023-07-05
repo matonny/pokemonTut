@@ -1,18 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Button,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import {
-  PaginationElem,
-  PokemonSummary,
-  paginationElem,
-  pokemonSummary,
-} from "../types";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import { PokemonSummary, pokemonSummary } from "../types";
 import { PokemonSummaryView } from "../Components/PokemonSummaryView";
 
 export const List = () => {
