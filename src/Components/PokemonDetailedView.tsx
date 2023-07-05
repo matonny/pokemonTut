@@ -63,7 +63,11 @@ export const PokemonDetailedView = ({ id, initialFavourite }: Props) => {
           />
           <Text>Weight: {pokeData.weight}</Text>
           {pokeData.stats.map((stat) => {
-            return <Text>{`${stat.stat.name}: ${stat.base_stat}`}</Text>;
+            return (
+              <Text
+                key={stat.stat.name}
+              >{`${stat.stat.name}: ${stat.base_stat}`}</Text>
+            );
           })}
         </>
       )}

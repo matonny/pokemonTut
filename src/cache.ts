@@ -25,9 +25,9 @@ export const saveFavouritePokemon = (pokemonId: number) => {
 };
 
 export const removeFavouritePokemon = () => {
-  AsyncStorage.setItem(FAVOURITE_KEY, "");
+  AsyncStorage.removeItem(FAVOURITE_KEY);
 };
 
-export const getFavouritePokemon = () => {
+export const getFavouritePokemon = async () => {
   return AsyncStorage.getItem(FAVOURITE_KEY);
 };
