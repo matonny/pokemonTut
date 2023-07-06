@@ -1,13 +1,13 @@
 import { PokemonDetailedView } from "../Components/PokemonDetailedView";
 import { useEffect, useState } from "react";
-import { getFavouritePokemon, saveFavouritePokemon } from "../cache";
+import { getFavouritePoke, saveFavouritePoke } from "../cache";
 import { Text, View } from "react-native";
 
 export const Favourite = () => {
   const [favouriteId, setFavouriteId] = useState<number | null>(null);
   useEffect(() => {
     const temp = async () => {
-      const savedFavourite = await getFavouritePokemon();
+      const savedFavourite = await getFavouritePoke();
       if (savedFavourite) {
         setFavouriteId(Number(savedFavourite));
       } else {

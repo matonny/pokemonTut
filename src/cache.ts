@@ -5,7 +5,7 @@ const getPokemonKey = (id: number) => `POKEMON_${id}`;
 
 const FAVOURITE_KEY = "favourite";
 
-export const getPokemonDetailsFromCache = async (id: number) => {
+export const getPokeDetailsFromCache = async (id: number) => {
   const storedPokemon = await AsyncStorage.getItem(getPokemonKey(id));
   try {
     return pokemonDetails.parse(storedPokemon);
@@ -13,21 +13,22 @@ export const getPokemonDetailsFromCache = async (id: number) => {
     return null;
   }
 };
-export const savePokemonInCache = (pokemon: PokemonDetails) => {
+export const savePokeDetailsInCache = (pokemon: PokemonDetails) => {
   const jsonPokemon = JSON.stringify(pokemon);
+
   AsyncStorage.setItem(getPokemonKey(pokemon.id), jsonPokemon).catch((e) =>
     console.log(e)
   );
 };
 
-export const saveFavouritePokemon = (pokemonId: number) => {
+export const saveFavouritePoke = (pokemonId: number) => {
   AsyncStorage.setItem(FAVOURITE_KEY, String(pokemonId));
 };
 
-export const removeFavouritePokemon = () => {
+export const removeFavouritePoke = () => {
   AsyncStorage.removeItem(FAVOURITE_KEY);
 };
 
-export const getFavouritePokemon = async () => {
+export const getFavouritePoke = async () => {
   return AsyncStorage.getItem(FAVOURITE_KEY);
 };

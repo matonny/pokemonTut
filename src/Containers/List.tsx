@@ -1,63 +1,46 @@
 import { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
-import { PokemonSummary, pokemonSummary } from "../types";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { PokemonSummary } from "../types";
 import { PokemonSummaryView } from "../Components/PokemonSummaryView";
+import { getPokeDetails } from "../utils";
 
 export const List = () => {
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    scrollView: {
-      marginHorizontal: 20,
-    },
-    text: {
-      fontSize: 42,
-    },
-  });
+  const PAGE_SIZE = 10;
+  const API_OFFSET = 1; // API indexes pokemons starting with 1
   const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [endReached, setEndReached] = useState(false);
+  const [lastPokeReached, setLastPokeReached] = useState(false);
   const [pokeSummaries, setPokeSummaries] = useState<PokemonSummary[]>([]);
-  const offset = useRef(1); //offset start with 1 because API starts with id 1
-
-  const pageSize = 10;
+  const offset = useRef(API_OFFSET);
 
   const getPokemons = async () => {
     setLoading(true);
-    const getPokemonSummary = async (id: number) => {
-      console.log(id);
-      try {
-        const rawPokemonSummary = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${id}/`
-        );
-        const parsedPokemonSummary = pokemonSummary.parse(
-          await rawPokemonSummary.json()
-        );
-        console.log(parsedPokemonSummary);
-        return parsedPokemonSummary;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const pokemonIds = Array(pageSize)
+    const pokemonIds = Array(PAGE_SIZE)
       .fill(0)
       .map((_, index) => offset.current + index);
-    console.log(pokemonIds);
+
     const rawPokemons = await Promise.all(
-      pokemonIds.map(async (id): Promise<PokemonSummary | undefined> => {
-        return getPokemonSummary(id);
+      pokemonIds.map(async (id): Promise<PokemonSummary | null> => {
+        return getPokeDetails(id);
       })
     );
-    console.log(rawPokemons);
     const filteredPokemons = rawPokemons.filter(
       (item): item is PokemonSummary => !!item
     );
-    console.log(filteredPokemons);
+    if (filteredPokemons.length === 0) {
+      setLastPokeReached(true);
+      setLoading(false);
+      return;
+    }
     setPokeSummaries((prevPokeSummaries) =>
       prevPokeSummaries.concat(filteredPokemons)
     );
-    offset.current = offset.current + pageSize;
+    offset.current = offset.current + PAGE_SIZE;
     setLoading(false);
   };
 
@@ -65,10 +48,11 @@ export const List = () => {
     getPokemons();
 
     return () => {
-      offset.current = 1;
+      offset.current = API_OFFSET;
       setLoading(true);
     };
   }, []);
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -80,11 +64,27 @@ export const List = () => {
           />
         )}
         style={styles.scrollView}
-        onEndReached={getPokemons}
+        onEndReached={() => {
+          if (!lastPokeReached) {
+            getPokemons();
+          }
+        }}
         onEndReachedThreshold={0.5}
         bounces={false}
       ></FlatList>
       {isLoading && <ActivityIndicator size="large" />}
+      {lastPokeReached && <Text>You reached the last Pokemon</Text>}
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    marginHorizontal: 20,
+  },
+  text: {
+    fontSize: 42,
+  },
+});

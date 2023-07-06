@@ -1,4 +1,3 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Favourite } from "./src/Containers/Favourite";
 import { List } from "./src/Containers/List";
 import { PokeMap } from "./src/Containers/PokeMap";
