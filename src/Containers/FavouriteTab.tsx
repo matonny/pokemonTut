@@ -1,34 +1,20 @@
 import { PokemonDetailedView } from "../Components/PokemonDetailedView";
-import { useEffect, useState } from "react";
-import { getFavouritePoke } from "../cache";
+import { useContext } from "react";
 import { Text, View } from "react-native";
+import { FavPokeContext, FavPokeContextType } from "../../App";
 
 export const Favourite = () => {
-  const [favouriteId, setFavouriteId] = useState<number | null>(null);
-  useEffect(() => {
-    const temp = async () => {
-      const savedFavourite = await getFavouritePoke();
-      if (savedFavourite) {
-        setFavouriteId(Number(savedFavourite));
-      } else {
-        setFavouriteId(null);
-      }
-    };
-    temp();
-    return () => {
-      setFavouriteId(null);
-    };
-  }, []);
-
+  const { favPoke } = useContext(FavPokeContext) as FavPokeContextType;
+  console.log(favPoke);
   return (
     <View>
-      {!favouriteId && (
+      {!favPoke && (
         <Text>
           You either don't have a favourite pokemon or there was a problem
           retrieving it
         </Text>
       )}
-      {favouriteId && <PokemonDetailedView id={favouriteId} />}
+      {favPoke && <PokemonDetailedView id={favPoke} />}
     </View>
   );
 };

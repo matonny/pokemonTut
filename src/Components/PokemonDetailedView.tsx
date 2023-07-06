@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
-import { ListStackParamList, PokemonDetails } from "../types";
+import { useContext, useEffect, useState } from "react";
+import { PokemonDetails } from "../types";
 import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
-import {
-  getFavouritePoke,
-  removeFavouritePoke,
-  saveFavouritePoke,
-} from "../cache";
+import { removeFavouritePoke, saveFavouritePoke } from "../cache";
 import { getPokeDetails } from "../utils";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { StackScreenProps } from "@react-navigation/stack";
+import { FavPokeContext, FavPokeContextType } from "../../App";
 
 export type PokemonDetailedViewProps = {
   id: number;
@@ -18,7 +14,9 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [pokeData, setPokeData] = useState<null | PokemonDetails>(null);
-  const [favourite, setFavourite] = useState(Number(getFavouritePoke()) === id);
+  const { favPoke, setFavPoke } = useContext(
+    FavPokeContext
+  ) as FavPokeContextType;
 
   useEffect(() => {
     getPokeDetails(id)
@@ -41,16 +39,15 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
           <Text>{pokeData.name}</Text>
           <Pressable
             onPress={() => {
-              setFavourite((prevFav) => !prevFav);
-              favourite
-                ? removeFavouritePoke()
-                : saveFavouritePoke(pokeData.id);
+              setFavPoke(id === favPoke ? null : id);
+              console.log(favPoke);
+              id === favPoke ? removeFavouritePoke() : saveFavouritePoke(id);
             }}
           >
             <Icon
               name={"star"}
               size={25}
-              color={favourite ? "yellow" : "grey"}
+              color={id === favPoke ? "yellow" : "grey"}
             ></Icon>
           </Pressable>
           <Image
