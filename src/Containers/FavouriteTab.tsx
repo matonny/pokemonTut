@@ -1,6 +1,6 @@
 import { PokemonDetailedView } from "../Components/PokemonDetailedView";
 import { useEffect, useState } from "react";
-import { getFavouritePoke, saveFavouritePoke } from "../cache";
+import { getFavouritePoke } from "../cache";
 import { Text, View } from "react-native";
 
 export const Favourite = () => {
@@ -28,9 +28,7 @@ export const Favourite = () => {
           retrieving it
         </Text>
       )}
-      {favouriteId && (
-        <PokemonDetailedView id={favouriteId} initialFavourite={true} />
-      )}
+      {favouriteId && <PokemonDetailedView id={favouriteId} />}
     </View>
   );
 };

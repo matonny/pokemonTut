@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PokemonDetailedViewProps } from "./Components/PokemonDetailedView";
 
 export type Screens = "Favourite" | "PokeList" | "PokeMap";
 
@@ -7,6 +8,10 @@ export const paginationElem = z.object({
   url: z.string(),
 });
 
+export type ListStackParamList = {
+  PokemonList: undefined;
+  PokemonDetails: PokemonDetailedViewProps;
+};
 export type PaginationElem = z.infer<typeof paginationElem>;
 
 const sprites = z.object({

@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
-import { PokemonDetails } from "../types";
+import { ListStackParamList, PokemonDetails } from "../types";
 import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
-import { removeFavouritePoke, saveFavouritePoke } from "../cache";
+import {
+  getFavouritePoke,
+  removeFavouritePoke,
+  saveFavouritePoke,
+} from "../cache";
 import { getPokeDetails } from "../utils";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { StackScreenProps } from "@react-navigation/stack";
 
-type Props = {
+export type PokemonDetailedViewProps = {
   id: number;
-  initialFavourite: boolean;
 };
 
-export const PokemonDetailedView = ({ id, initialFavourite }: Props) => {
+export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [pokeData, setPokeData] = useState<null | PokemonDetails>(null);
-  const [favourite, setFavourite] = useState(initialFavourite);
+  const [favourite, setFavourite] = useState(Number(getFavouritePoke()) === id);
 
   useEffect(() => {
     getPokeDetails(id)

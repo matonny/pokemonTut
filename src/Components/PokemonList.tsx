@@ -2,17 +2,22 @@ import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import { PokemonSummary } from "../types";
-import { PokemonSummaryView } from "../Components/PokemonSummaryView";
+import { ListStackParamList, PokemonSummary } from "../types";
+import { PokemonSummaryView } from "./PokemonSummaryView";
 import { getPokeDetails } from "../utils";
+import { StackScreenProps } from "@react-navigation/stack";
 
-export const List = () => {
+export const PokemonList = ({
+  navigation,
+}: StackScreenProps<ListStackParamList, "PokemonList">) => {
   const PAGE_SIZE = 10;
   const API_OFFSET = 1; // API indexes pokemons starting with 1
+
   const [isLoading, setLoading] = useState(true);
   const [lastPokeReached, setLastPokeReached] = useState(false);
   const [pokeSummaries, setPokeSummaries] = useState<PokemonSummary[]>([]);
@@ -58,10 +63,16 @@ export const List = () => {
       <FlatList
         data={pokeSummaries}
         renderItem={({ item }) => (
-          <PokemonSummaryView
-            name={item.name}
-            frontUrl={item.sprites.front_default}
-          />
+          <Pressable
+            onPress={() => {
+              navigation.navigate("PokemonDetails", { id: item.id });
+            }}
+          >
+            <PokemonSummaryView
+              name={item.name}
+              frontUrl={item.sprites.front_default}
+            />
+          </Pressable>
         )}
         style={styles.scrollView}
         onEndReached={() => {
