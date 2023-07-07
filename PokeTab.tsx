@@ -14,7 +14,7 @@ export const PokeTab = () => {
         name="Favourite"
         component={Favourite}
         options={{
-          tabBarIcon: () => <Icon name={"star"} size={25} color={"grey"} />,
+          tabBarIcon: () => <Icon name={"star-o"} size={25} color={"grey"} />,
         }}
       />
 
@@ -23,7 +23,7 @@ export const PokeTab = () => {
         component={ListTab}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Icon name={"list"} size={25} color={"grey"} />,
+          tabBarIcon: () => <Icon name={"list-ul"} size={25} color={"grey"} />,
         }}
       />
 

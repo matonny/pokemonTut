@@ -12,6 +12,7 @@ import { removeFavouritePoke, saveFavouritePoke } from "../cache";
 import { getPokeDetails } from "../utils";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { FavPokeContext, FavPokeContextType } from "../../App";
+import { PokemonStats } from "./PokemonStats";
 
 export type PokemonDetailedViewProps = {
   id: number;
@@ -42,8 +43,7 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
       {error && <Text> An error occurred {error}</Text>}
       {loading && <ActivityIndicator size="large" />}
       {pokeData && (
-        <View>
-          <Text>{pokeData.name}</Text>
+        <View style={styles.container}>
           <Pressable
             onPress={() => {
               setFavPoke(() => (favPoke === id ? null : id));
@@ -51,26 +51,30 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
             }}
           >
             <Icon
+              style={styles.star}
               name={"star"}
-              size={25}
-              color={id === favPoke ? "yellow" : "grey"}
+              size={45}
+              color={id === favPoke ? "#f5f187" : "grey"}
             />
           </Pressable>
           <Image
             source={{
-              width: 100,
-              height: 100,
+              width: 250,
+              height: 250,
               uri: pokeData.sprites.front_default,
             }}
+            style={styles.image}
           />
-          <Text>Weight: {pokeData.weight}</Text>
+          <Text style={styles.name}>{pokeData.name}</Text>
+          <PokemonStats stats={pokeData.stats} weight={pokeData.weight} />
+          {/* <Text>Weight: {pokeData.weight}</Text>
           {pokeData.stats.map((stat) => {
             return (
               <Text
                 key={stat.stat.name}
               >{`${stat.stat.name}: ${stat.base_stat}`}</Text>
             );
-          })}
+          })} */}
         </View>
       )}
     </View>
@@ -79,12 +83,21 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: "flex",
+    alignItems: "center",
   },
   scrollView: {
     marginHorizontal: 20,
   },
   text: {
     fontSize: 42,
+  },
+  name: {
+    textAlign: "center",
+    textTransform: "uppercase",
+  },
+  star: {},
+  image: {
+    marginHorizontal: "auto",
   },
 });

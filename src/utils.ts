@@ -1,5 +1,6 @@
 import { getPokeDetailsFromWeb } from "./api";
 import { getPokeDetailsFromCache, savePokeDetailsInCache } from "./cache";
+import { Stats } from "./types";
 
 export const getPokeDetails = async (id: number) => {
   const cachedDetails = await getPokeDetailsFromCache(id);
@@ -12,4 +13,14 @@ export const getPokeDetails = async (id: number) => {
     savePokeDetailsInCache(webDetails);
   }
   return webDetails;
+};
+
+export const statDisplayNames: Record<Stats, string> = {
+  hp: "Health",
+  attack: "Attack",
+  defense: "Block",
+  "special-attack": "Special attack",
+  "special-defense": "Special block",
+  speed: "Speed",
+  Weight: "Weight",
 };

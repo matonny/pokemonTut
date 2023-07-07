@@ -7,6 +7,17 @@ export const ListTabNames = {
   pokeList: "Pokemon List",
   pokeDetail: "Pokemon Detail",
 };
+
+const statNames = z.enum([
+  "hp",
+  "attack",
+  "defense",
+  "special-attack",
+  "special-defense",
+  "speed",
+  "Weight",
+]);
+
 export const paginationElem = z.object({
   name: z.string(),
   url: z.string(),
@@ -31,9 +42,12 @@ export const pokemonSummary = z.object({
 export const pokemonStat = z.object({
   base_stat: z.number(),
   stat: z.object({
-    name: z.string(),
+    name: statNames,
   }),
 });
+
+export type Stats = z.infer<typeof statNames>;
+
 export type PokemonSummary = z.infer<typeof pokemonSummary>;
 
 export const pokemonDetails = pokemonSummary.extend({
