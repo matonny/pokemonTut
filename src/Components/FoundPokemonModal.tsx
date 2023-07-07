@@ -1,15 +1,22 @@
-import { Dispatch } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { Dispatch, useState } from "react";
+import { Button, Modal, StyleSheet, Text, View } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import { LatLng } from "react-native-maps";
 
-export interface FoundPokemonModalProps {
+type FoundPokemonModalProps = {
   display: boolean;
   setDisplay: Dispatch<React.SetStateAction<boolean>>;
-}
+  pressDetails: LatLng | null;
+};
 export const FoundPokemonModal = ({
   display,
   setDisplay,
+  pressDetails,
 }: FoundPokemonModalProps) => {
-  console.log("yikes");
+  const [pokeName, setPokeName] = useState("");
+  if (!pressDetails) {
+    return <></>;
+  }
   return (
     <Modal
       visible={display}
@@ -19,14 +26,30 @@ export const FoundPokemonModal = ({
     >
       <View style={styles.modal}>
         <View style={styles.sndModal}>
-          <Pressable onPress={() => setDisplay(false)}>
-            <Text>Add a newfound pokemon!</Text>
-            <Text>Add a newfound pokemon!</Text>
-            <Text>Add a newfound pokemon!</Text>
-            <Text>Add a newfound pokemon!</Text>
-            <Text>Add a newfound pokemon!</Text>
-            <Text>Add a newfound pokemon!</Text>
-          </Pressable>
+          <Text style={styles.title}>Add a newfound pokemon!</Text>
+          <TextInput
+            style={styles.input}
+            value={pokeName}
+            onChangeText={(event) => setPokeName(event)}
+          ></TextInput>
+          <View style={styles.btnBar}>
+            <View style={styles.btn}>
+              <Button
+                title="Close"
+                color="red"
+                onPress={() => setDisplay(false)}
+              ></Button>
+            </View>
+            <View style={styles.btn}>
+              <Button
+                disabled={pokeName === ""}
+                title="Add"
+                onPress={() => {
+                  console.log(pressDetails);
+                }}
+              ></Button>
+            </View>
+          </View>
         </View>
       </View>
     </Modal>
@@ -34,6 +57,10 @@ export const FoundPokemonModal = ({
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontWeight: "bold",
+    marginTop: 10,
+  },
   modal: {
     flex: 1,
     flexDirection: "column",
@@ -43,10 +70,26 @@ const styles = StyleSheet.create({
   sndModal: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     width: 200,
-    height: 200,
+    height: 150,
     backgroundColor: "white",
-    borderRadius: 50,
+    borderRadius: 10,
+  },
+  btnBar: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  btn: {
+    width: 100,
+  },
+  input: {
+    height: 40,
+    width: 150,
+    padding: 12,
+    backgroundColor: "#EFEFEF",
+    borderWidth: 1,
+    borderRadius: 5,
   },
 });
