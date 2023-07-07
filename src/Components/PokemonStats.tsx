@@ -24,16 +24,6 @@ export const PokemonStats = ({
     </View>
   );
 };
-// <>
-//   <Text>Weight: {pokeData.weight}</Text>
-//   {pokeData.stats.map((stat) => {
-//     return (
-//       <Text key={stat.stat.name}>{`${statDisplayNames[stat.stat.name]}: ${
-//         stat.base_stat
-//       }`}</Text>
-//     );
-//   })}
-// </>
 const styles = StyleSheet.create({
   vertContainer: {
     display: "flex",

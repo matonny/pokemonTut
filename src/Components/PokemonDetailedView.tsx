@@ -67,14 +67,6 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
           />
           <Text style={styles.name}>{pokeData.name}</Text>
           <PokemonStats stats={pokeData.stats} weight={pokeData.weight} />
-          {/* <Text>Weight: {pokeData.weight}</Text>
-          {pokeData.stats.map((stat) => {
-            return (
-              <Text
-                key={stat.stat.name}
-              >{`${stat.stat.name}: ${stat.base_stat}`}</Text>
-            );
-          })} */}
         </View>
       )}
     </View>
