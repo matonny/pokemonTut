@@ -1,6 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { PokemonDetails } from "../types";
-import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { removeFavouritePoke, saveFavouritePoke } from "../cache";
 import { getPokeDetails } from "../utils";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -39,15 +46,7 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
           <Text>{pokeData.name}</Text>
           <Pressable
             onPress={() => {
-              setFavPoke(() => {
-                if (!favPoke) {
-                  return id;
-                }
-                if (favPoke === id) {
-                  return null;
-                }
-                return id;
-              });
+              setFavPoke(() => (favPoke === id ? null : id));
               favPoke !== null ? removeFavouritePoke() : saveFavouritePoke(id);
             }}
           >
@@ -77,3 +76,15 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    marginHorizontal: 20,
+  },
+  text: {
+    fontSize: 42,
+  },
+});

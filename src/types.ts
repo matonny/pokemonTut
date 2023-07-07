@@ -3,14 +3,18 @@ import { PokemonDetailedViewProps } from "./Components/PokemonDetailedView";
 
 export type Screens = "Favourite" | "PokeList" | "PokeMap";
 
+export const ListTabNames = {
+  pokeList: "Pokemon List",
+  pokeDetail: "Pokemon Detail",
+};
 export const paginationElem = z.object({
   name: z.string(),
   url: z.string(),
 });
 
 export type ListStackParamList = {
-  PokemonList: undefined;
-  PokemonDetails: PokemonDetailedViewProps;
+  "Pokemon List": undefined;
+  "Pokemon Details": PokemonDetailedViewProps;
 };
 export type PaginationElem = z.infer<typeof paginationElem>;
 

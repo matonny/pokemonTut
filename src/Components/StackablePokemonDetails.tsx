@@ -4,6 +4,6 @@ import { PokemonDetailedView } from "./PokemonDetailedView";
 
 export const StackablePokemonDetails = ({
   route,
-}: StackScreenProps<ListStackParamList, "PokemonDetails">) => {
+}: StackScreenProps<ListStackParamList, "Pokemon Details">) => {
   return <PokemonDetailedView id={route.params.id} />;
 };

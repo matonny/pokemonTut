@@ -7,9 +7,9 @@ export const ListTab = () => {
   const Stack = createStackNavigator<ListStackParamList>();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="PokemonList" component={PokemonList} />
+      <Stack.Screen name="Pokemon List" component={PokemonList} />
       <Stack.Screen
-        name="PokemonDetails"
+        name="Pokemon Details"
         component={StackablePokemonDetails}
         initialParams={{ id: 1 }}
       />

@@ -8,13 +8,14 @@ export const Favourite = () => {
   console.log(favPoke);
   return (
     <View>
-      {!favPoke && (
+      {!favPoke ? (
         <Text>
           You either don't have a favourite pokemon or there was a problem
           retrieving it
         </Text>
+      ) : (
+        <PokemonDetailedView id={favPoke} />
       )}
-      {favPoke && <PokemonDetailedView id={favPoke} />}
     </View>
   );
 };

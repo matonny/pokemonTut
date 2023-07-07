@@ -14,7 +14,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 export const PokemonList = ({
   navigation,
-}: StackScreenProps<ListStackParamList, "PokemonList">) => {
+}: StackScreenProps<ListStackParamList, "Pokemon List">) => {
   const PAGE_SIZE = 10;
   const API_OFFSET = 1; // API indexes pokemons starting with 1
 
@@ -65,7 +65,7 @@ export const PokemonList = ({
         renderItem={({ item }) => (
           <Pressable
             onPress={() => {
-              navigation.navigate("PokemonDetails", { id: item.id });
+              navigation.navigate("Pokemon Details", { id: item.id });
             }}
           >
             <PokemonSummaryView
