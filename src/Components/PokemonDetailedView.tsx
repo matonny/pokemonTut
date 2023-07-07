@@ -11,7 +11,7 @@ export type PokemonDetailedViewProps = {
 };
 
 export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pokeData, setPokeData] = useState<null | PokemonDetails>(null);
   const { favPoke, setFavPoke } = useContext(
@@ -25,30 +25,37 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
 
     return () => {
       setPokeData(null);
-      setError("false");
+      setError(false);
       setLoading(true);
     };
-  }, []);
+  }, [id]);
 
   return (
     <View>
       {error && <Text> An error occurred {error}</Text>}
       {loading && <ActivityIndicator size="large" />}
       {pokeData && (
-        <>
+        <View>
           <Text>{pokeData.name}</Text>
           <Pressable
             onPress={() => {
-              setFavPoke(id === favPoke ? null : id);
-              console.log(favPoke);
-              id === favPoke ? removeFavouritePoke() : saveFavouritePoke(id);
+              setFavPoke(() => {
+                if (!favPoke) {
+                  return id;
+                }
+                if (favPoke === id) {
+                  return null;
+                }
+                return id;
+              });
+              favPoke !== null ? removeFavouritePoke() : saveFavouritePoke(id);
             }}
           >
             <Icon
               name={"star"}
               size={25}
               color={id === favPoke ? "yellow" : "grey"}
-            ></Icon>
+            />
           </Pressable>
           <Image
             source={{
@@ -65,7 +72,7 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
               >{`${stat.stat.name}: ${stat.base_stat}`}</Text>
             );
           })}
-        </>
+        </View>
       )}
     </View>
   );
