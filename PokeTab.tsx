@@ -1,19 +1,39 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Favourite } from "./src/Containers/Favourite";
-import { List } from "./src/Containers/List";
-import { PokeMap } from "./src/Containers/PokeMap";
+import { Favourite } from "./src/Containers/FavouriteTab";
+import { PokemonList } from "./src/Components/PokemonList";
+import { PokeMap } from "./src/Containers/MapTab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { ListTab } from "./src/Containers/ListTab";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export const PokeTab = () => {
   const Tab = createBottomTabNavigator();
 
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Favourite" component={Favourite} />
+      <Tab.Screen
+        name="Favourite"
+        component={Favourite}
+        options={{
+          tabBarIcon: () => <Icon name={"star-o"} size={25} color={"grey"} />,
+        }}
+      />
 
-      <Tab.Screen name="List" component={List} />
+      <Tab.Screen
+        name="Pokemon List"
+        component={ListTab}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <Icon name={"list-ul"} size={25} color={"grey"} />,
+        }}
+      />
 
-      <Tab.Screen name="Map" component={PokeMap} />
+      <Tab.Screen
+        name="Map"
+        component={PokeMap}
+        options={{
+          tabBarIcon: () => <Icon name={"map-o"} size={25} color={"grey"} />,
+        }}
+      />
     </Tab.Navigator>
   );
 };
