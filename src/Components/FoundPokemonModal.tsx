@@ -1,8 +1,10 @@
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, useContext, useState } from "react";
 import { Button, Modal, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { LatLng } from "react-native-maps";
 import { addPokemonPinToCache } from "../cache";
+import { PinsContext } from "../Containers/MapTab";
+import { MapPinsContextType } from "../types";
 
 type FoundPokemonModalProps = {
   display: boolean;
@@ -15,9 +17,15 @@ export const FoundPokemonModal = ({
   pressPosition,
 }: FoundPokemonModalProps) => {
   const [pokeName, setPokeName] = useState("");
+  const { setMapPins } = useContext(PinsContext) as MapPinsContextType;
+
   if (!pressPosition) {
     return <></>;
   }
+  const closeModal = () => {
+    setDisplay(false);
+    setPokeName("");
+  };
   return (
     <Modal
       visible={display}
@@ -35,21 +43,20 @@ export const FoundPokemonModal = ({
           ></TextInput>
           <View style={styles.btnBar}>
             <View style={styles.btn}>
-              <Button
-                title="Close"
-                color="red"
-                onPress={() => setDisplay(false)}
-              ></Button>
+              <Button title="Close" color="red" onPress={closeModal}></Button>
             </View>
             <View style={styles.btn}>
               <Button
                 disabled={pokeName === ""}
                 title="Add"
                 onPress={() => {
-                  addPokemonPinToCache({
+                  const newPin = {
                     pokemon: pokeName,
                     position: pressPosition,
-                  });
+                  };
+                  addPokemonPinToCache(newPin);
+                  setMapPins((prevMapPins) => prevMapPins?.concat([newPin]));
+                  closeModal();
                 }}
               ></Button>
             </View>

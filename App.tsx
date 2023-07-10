@@ -1,13 +1,12 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { PokeTab } from "./PokeTab";
-import { Dispatch, createContext, useEffect, useState } from "react";
+import { PokeTabs } from "./PokeTabs";
+import { createContext, useEffect, useState } from "react";
 import { getFavouritePoke } from "./src/cache";
+import { FavPokeContextType } from "./src/types";
 
-export type FavPokeContextType = {
-  favPoke: null | number;
-  setFavPoke: Dispatch<React.SetStateAction<number | null>>;
-};
-export const FavPokeContext = createContext<null | FavPokeContextType>(null);
+export const FavPokeContext = createContext<undefined | FavPokeContextType>(
+  undefined
+);
 
 export default function App() {
   const [favPoke, setFavPoke] = useState<null | number>(null);
@@ -26,7 +25,7 @@ export default function App() {
   return (
     <FavPokeContext.Provider value={{ favPoke, setFavPoke }}>
       <NavigationContainer>
-        <PokeTab />
+        <PokeTabs />
       </NavigationContainer>
     </FavPokeContext.Provider>
   );

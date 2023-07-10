@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PokemonDetailedViewProps } from "./Components/PokemonDetailedView";
+import { Dispatch } from "react";
 
 export type Screens = "Favourite" | "PokeList" | "PokeMap";
 
@@ -66,3 +67,13 @@ export const pokemonPin = z.object({
 });
 
 export type PokemonPin = z.infer<typeof pokemonPin>;
+
+export type MapPinsContextType = {
+  mapPins: undefined | PokemonPin[];
+  setMapPins: Dispatch<React.SetStateAction<undefined | PokemonPin[]>>;
+};
+
+export type FavPokeContextType = {
+  favPoke: undefined | number;
+  setFavPoke: Dispatch<React.SetStateAction<number | undefined>>;
+};

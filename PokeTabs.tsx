@@ -1,18 +1,17 @@
-import { Favourite } from "./src/Containers/FavouriteTab";
-import { PokemonList } from "./src/Components/PokemonList";
-import { PokeMap } from "./src/Containers/MapTab";
+import { FavouriteTab } from "./src/Containers/FavouriteTab";
+import { MapTab } from "./src/Containers/MapTab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ListTab } from "./src/Containers/ListTab";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export const PokeTab = () => {
+export const PokeTabs = () => {
   const Tab = createBottomTabNavigator();
 
   return (
     <Tab.Navigator>
       <Tab.Screen
         name="Favourite"
-        component={Favourite}
+        component={FavouriteTab}
         options={{
           tabBarIcon: () => <Icon name={"star-o"} size={25} color={"grey"} />,
         }}
@@ -29,7 +28,7 @@ export const PokeTab = () => {
 
       <Tab.Screen
         name="Map"
-        component={PokeMap}
+        component={MapTab}
         options={{
           tabBarIcon: () => <Icon name={"map-o"} size={25} color={"grey"} />,
         }}
