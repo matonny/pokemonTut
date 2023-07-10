@@ -10,8 +10,6 @@ export default function App() {
   useEffect(() => {
     const initialiseFavPoke = async () => {
       const storedFavPoke = await getFavouritePoke();
-      console.log("siema");
-      console.log(storedFavPoke);
       setFavPoke(Number(storedFavPoke));
     };
     initialiseFavPoke();

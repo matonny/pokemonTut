@@ -6,7 +6,6 @@ import { FavPokeContext } from "../Contexts/FavPokeContext";
 
 export const FavouriteTab = () => {
   const { favPoke } = useContext(FavPokeContext) as FavPokeContextType;
-  console.log(favPoke);
   return (
     <View>
       {!favPoke ? (

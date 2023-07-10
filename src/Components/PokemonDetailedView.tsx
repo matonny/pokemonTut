@@ -49,7 +49,9 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
           <Pressable
             onPress={() => {
               setFavPoke(() => (favPoke === id ? undefined : id));
-              favPoke !== null ? removeFavouritePoke() : saveFavouritePoke(id);
+              favPoke !== undefined
+                ? removeFavouritePoke()
+                : saveFavouritePoke(id);
             }}
           >
             <Icon

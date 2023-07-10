@@ -31,7 +31,7 @@ export const FoundPokemonModal = ({
       visible={display}
       animationType="fade"
       transparent={true}
-      onRequestClose={() => setDisplay(false)}
+      onRequestClose={closeModal}
     >
       <View style={styles.modal}>
         <View style={styles.sndModal}>

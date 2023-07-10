@@ -29,7 +29,7 @@ export const savePokeDetailsInCache = (pokemon: PokemonDetails) => {
   );
 };
 
-export const saveFavouritePoke = (pokemonId: number) => {
+export const saveFavouritePoke = async (pokemonId: number) => {
   AsyncStorage.setItem(FAVOURITE_KEY, String(pokemonId));
 };
 
@@ -47,11 +47,9 @@ export const getPokePinsFromCache = async () => {
   }
   try {
     const result = z.array(pokemonPin).parse(JSON.parse(storedPins));
-    console.log("retrieved successfully");
     return result;
   } catch (e) {
     console.log(e);
-    console.log("yikes");
     return [] as PokemonPin[];
   }
 };
