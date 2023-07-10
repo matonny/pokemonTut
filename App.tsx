@@ -1,12 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { PokeTabs } from "./PokeTabs";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getFavouritePoke } from "./src/cache";
-import { FavPokeContextType } from "./src/types";
-
-export const FavPokeContext = createContext<undefined | FavPokeContextType>(
-  undefined
-);
+import { FavPokeContext } from "./src/Contexts/FavPokeContext";
 
 export default function App() {
   const [favPoke, setFavPoke] = useState<undefined | number>(undefined);
@@ -14,6 +10,8 @@ export default function App() {
   useEffect(() => {
     const initialiseFavPoke = async () => {
       const storedFavPoke = await getFavouritePoke();
+      console.log("siema");
+      console.log(storedFavPoke);
       setFavPoke(Number(storedFavPoke));
     };
     initialiseFavPoke();

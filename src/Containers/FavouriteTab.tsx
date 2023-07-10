@@ -1,8 +1,8 @@
 import { PokemonDetailedView } from "../Components/PokemonDetailedView";
 import { useContext } from "react";
 import { Text, View } from "react-native";
-import { FavPokeContext } from "../../App";
 import { FavPokeContextType } from "../types";
+import { FavPokeContext } from "../Contexts/FavPokeContext";
 
 export const FavouriteTab = () => {
   const { favPoke } = useContext(FavPokeContext) as FavPokeContextType;

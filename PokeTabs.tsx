@@ -18,7 +18,7 @@ export const PokeTabs = () => {
       />
 
       <Tab.Screen
-        name="Pokemon List"
+        name="Pokemons"
         component={ListTab}
         options={{
           headerShown: false,

@@ -30,7 +30,7 @@ export const PokemonList = ({
       .map((_, index) => offset.current + index);
 
     const rawPokemons = await Promise.all(
-      pokemonIds.map(async (id): Promise<PokemonSummary | null> => {
+      pokemonIds.map(async (id): Promise<PokemonSummary | undefined> => {
         return getPokeDetails(id);
       })
     );

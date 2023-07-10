@@ -14,7 +14,7 @@ export const getPokeDetailsFromWeb = async (id: number) => {
     .then(pokemonDetails.parse)
     .catch((e) => {
       console.log(e);
-      return null;
+      return undefined;
     });
   return pokeDetails;
 };

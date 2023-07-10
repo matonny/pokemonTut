@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { PokemonDetails } from "../types";
+import { FavPokeContextType, PokemonDetails } from "../types";
 import {
   ActivityIndicator,
   Image,
@@ -11,8 +11,8 @@ import {
 import { removeFavouritePoke, saveFavouritePoke } from "../cache";
 import { getPokeDetails } from "../utils";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { FavPokeContext, FavPokeContextType } from "../../App";
 import { PokemonStats } from "./PokemonStats";
+import { FavPokeContext } from "../Contexts/FavPokeContext";
 
 export type PokemonDetailedViewProps = {
   id: number;
@@ -21,7 +21,9 @@ export type PokemonDetailedViewProps = {
 export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [pokeData, setPokeData] = useState<null | PokemonDetails>(null);
+  const [pokeData, setPokeData] = useState<undefined | PokemonDetails>(
+    undefined
+  );
   const { favPoke, setFavPoke } = useContext(
     FavPokeContext
   ) as FavPokeContextType;
@@ -32,7 +34,7 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
       .then(() => setLoading(false));
 
     return () => {
-      setPokeData(null);
+      setPokeData(undefined);
       setError(false);
       setLoading(true);
     };
@@ -46,7 +48,7 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
         <View style={styles.container}>
           <Pressable
             onPress={() => {
-              setFavPoke(() => (favPoke === id ? null : id));
+              setFavPoke(() => (favPoke === id ? undefined : id));
               favPoke !== null ? removeFavouritePoke() : saveFavouritePoke(id);
             }}
           >

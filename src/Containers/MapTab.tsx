@@ -1,13 +1,11 @@
-import MapView, { LatLng, Marker } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View } from "react-native";
 import { FoundPokemonModal } from "../Components/FoundPokemonModal";
-import { createContext, useEffect, useState } from "react";
-import { MapPinsContextType, PokemonPin, Press } from "../types";
+import { useEffect, useState } from "react";
+import { PokemonPin, Press } from "../types";
 import { getPokePinsFromCache } from "../cache";
-
-export const PinsContext = createContext<undefined | MapPinsContextType>(
-  undefined
-);
+import { PinCallout } from "../Components/PinCallout";
+import { PinsContext } from "../Contexts/PinsContext";
 
 export const MapTab = () => {
   const [showModal, setShowModal] = useState(false);
@@ -55,7 +53,9 @@ export const MapTab = () => {
                 coordinate={pin.position}
                 title={pin.pokemon}
                 key={pin.timeStamp}
-              />
+              >
+                <PinCallout pokemon={pin.pokemon} pinId={pin.timeStamp} />
+              </Marker>
             );
           })}
         </MapView>

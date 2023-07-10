@@ -40,20 +40,6 @@ export const removeFavouritePoke = () => {
 export const getFavouritePoke = async () => {
   return AsyncStorage.getItem(FAVOURITE_KEY);
 };
-
-export const addPokemonPinToCache = async (pokemonPin: PokemonPin) => {
-  const currPins = await getPokePinsFromCache();
-  const updatedPins = currPins.concat(pokemonPin);
-  console.log(updatedPins);
-  try {
-    AsyncStorage.setItem(PINS_KEY, JSON.stringify(updatedPins));
-    return true;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-};
-
 export const getPokePinsFromCache = async () => {
   const storedPins = await AsyncStorage.getItem(PINS_KEY);
   if (!storedPins) {
@@ -67,5 +53,28 @@ export const getPokePinsFromCache = async () => {
     console.log(e);
     console.log("yikes");
     return [] as PokemonPin[];
+  }
+};
+
+export const addPokemonPinToCache = async (pokemonPin: PokemonPin) => {
+  const currPins = await getPokePinsFromCache();
+  const updatedPins = currPins.concat(pokemonPin);
+
+  setPinsListInCache(updatedPins);
+};
+export const removePokemonPinFromCache = async (pinId: number) => {
+  const currPins = await getPokePinsFromCache();
+  const filteredPins = currPins.filter((pin) => pin.timeStamp != pinId);
+
+  setPinsListInCache(filteredPins);
+};
+
+const setPinsListInCache = async (pinsList: PokemonPin[]) => {
+  try {
+    AsyncStorage.setItem(PINS_KEY, JSON.stringify(pinsList));
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
   }
 };

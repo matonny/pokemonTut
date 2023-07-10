@@ -2,8 +2,8 @@ import React, { Dispatch, useContext, useState } from "react";
 import { Button, Modal, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { addPokemonPinToCache } from "../cache";
-import { PinsContext } from "../Containers/MapTab";
 import { MapPinsContextType, Press } from "../types";
+import { PinsContext } from "../Contexts/PinsContext";
 
 type FoundPokemonModalProps = {
   display: boolean;
