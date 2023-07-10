@@ -1,25 +1,27 @@
-import { useContext } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Callout } from "react-native-maps";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { MapPinsContextType } from "../types";
-import { removePokemonPinFromCache } from "../cache";
-import { PinsContext } from "../Contexts/PinsContext";
+import { PokePin } from "../types";
+import { removePokePinFromCache } from "../cache";
 
 export interface PinCalloutProps {
-  pokemon: string;
+  poke: string;
   pinId: number;
+  setMapPins: React.Dispatch<React.SetStateAction<PokePin[]>>;
 }
-export const PinCallout = ({ pokemon, pinId }: PinCalloutProps) => {
-  const { setMapPins } = useContext(PinsContext) as MapPinsContextType;
+export const PinCallout = ({
+  poke,
+  pinId,
+  setMapPins: pinsHook,
+}: PinCalloutProps) => {
   return (
     <Callout>
       <View style={styles.container}>
-        <Text style={styles.name}>{pokemon}</Text>
+        <Text style={styles.name}>{poke}</Text>
         <Pressable
           onPress={() => {
-            removePokemonPinFromCache(pinId);
-            setMapPins((prevPins) => {
+            removePokePinFromCache(pinId);
+            pinsHook((prevPins) => {
               return prevPins?.filter((pin) => pin.timeStamp != pinId);
             });
           }}

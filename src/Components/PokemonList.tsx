@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { ListStackParamList, PokemonSummary } from "../types";
+import { ListStackParamList, PokeSummary } from "../types";
 import { PokemonSummaryView } from "./PokemonSummaryView";
 import { getPokeDetails } from "../utils";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -20,7 +20,7 @@ export const PokemonList = ({
 
   const [isLoading, setLoading] = useState(true);
   const [lastPokeReached, setLastPokeReached] = useState(false);
-  const [pokeSummaries, setPokeSummaries] = useState<PokemonSummary[]>([]);
+  const [pokeSummaries, setPokeSummaries] = useState<PokeSummary[]>([]);
   const offset = useRef(API_OFFSET);
 
   const getPokemons = async () => {
@@ -30,12 +30,12 @@ export const PokemonList = ({
       .map((_, index) => offset.current + index);
 
     const rawPokemons = await Promise.all(
-      pokemonIds.map(async (id): Promise<PokemonSummary | undefined> => {
+      pokemonIds.map(async (id): Promise<PokeSummary | undefined> => {
         return getPokeDetails(id);
       })
     );
     const filteredPokemons = rawPokemons.filter(
-      (item): item is PokemonSummary => !!item
+      (item): item is PokeSummary => !!item
     );
     if (filteredPokemons.length === 0) {
       setLastPokeReached(true);

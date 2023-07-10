@@ -34,13 +34,13 @@ const sprites = z.object({
   front_default: z.string(),
   back_default: z.string().nullable(),
 });
-export const pokemonSummary = z.object({
+export const pokeSummary = z.object({
   id: z.number(),
   name: z.string(),
   sprites: sprites,
 });
 
-export const pokemonStat = z.object({
+export const pokeStat = z.object({
   base_stat: z.number(),
   stat: z.object({
     name: statNames,
@@ -49,14 +49,14 @@ export const pokemonStat = z.object({
 
 export type Stats = z.infer<typeof statNames>;
 
-export type PokemonSummary = z.infer<typeof pokemonSummary>;
+export type PokeSummary = z.infer<typeof pokeSummary>;
 
-export const pokemonDetails = pokemonSummary.extend({
-  stats: pokemonStat.array().length(6),
+export const pokeDetails = pokeSummary.extend({
+  stats: pokeStat.array().length(6),
   weight: z.number(),
 });
 
-export type PokemonDetails = z.infer<typeof pokemonDetails>;
+export type PokeDetails = z.infer<typeof pokeDetails>;
 
 export const press = z.object({
   position: z.object({
@@ -68,16 +68,11 @@ export const press = z.object({
 
 export type Press = z.infer<typeof press>;
 
-export const pokemonPin = press.extend({
+export const pokePin = press.extend({
   pokemon: z.string(),
 });
 
-export type PokemonPin = z.infer<typeof pokemonPin>;
-
-export type MapPinsContextType = {
-  mapPins: undefined | PokemonPin[];
-  setMapPins: Dispatch<React.SetStateAction<undefined | PokemonPin[]>>;
-};
+export type PokePin = z.infer<typeof pokePin>;
 
 export type FavPokeContextType = {
   favPoke: undefined | number;

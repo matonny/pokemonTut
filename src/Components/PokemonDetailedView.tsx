@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FavPokeContextType, PokemonDetails } from "../types";
+import { FavPokeContextType, PokeDetails } from "../types";
 import {
   ActivityIndicator,
   Image,
@@ -11,7 +11,7 @@ import {
 import { removeFavouritePoke, saveFavouritePoke } from "../cache";
 import { getPokeDetails } from "../utils";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { PokemonStats } from "./PokemonStats";
+import { PokeStats } from "./PokemonStats";
 import { FavPokeContext } from "../Contexts/FavPokeContext";
 
 export type PokemonDetailedViewProps = {
@@ -21,9 +21,7 @@ export type PokemonDetailedViewProps = {
 export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [pokeData, setPokeData] = useState<undefined | PokemonDetails>(
-    undefined
-  );
+  const [pokeData, setPokeData] = useState<undefined | PokeDetails>(undefined);
   const { favPoke, setFavPoke } = useContext(
     FavPokeContext
   ) as FavPokeContextType;
@@ -70,7 +68,7 @@ export const PokemonDetailedView = ({ id }: PokemonDetailedViewProps) => {
             style={styles.image}
           />
           <Text style={styles.name}>{pokeData.name}</Text>
-          <PokemonStats stats={pokeData.stats} weight={pokeData.weight} />
+          <PokeStats stats={pokeData.stats} weight={pokeData.weight} />
         </View>
       )}
     </View>

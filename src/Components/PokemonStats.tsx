@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
-import { PokemonDetails, Stats } from "../types";
+import { StyleSheet, View } from "react-native";
+import { PokeDetails } from "../types";
 import { StatDisplay } from "./StatDisplay";
 
-export const PokemonStats = ({
+export const PokeStats = ({
   stats,
   weight,
-}: Pick<PokemonDetails, "stats" | "weight">) => {
+}: Pick<PokeDetails, "stats" | "weight">) => {
   return (
     <View style={styles.vertContainer}>
       <StatDisplay value={weight} name="Weight" />
