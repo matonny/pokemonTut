@@ -56,3 +56,13 @@ export const pokemonDetails = pokemonSummary.extend({
 });
 
 export type PokemonDetails = z.infer<typeof pokemonDetails>;
+
+export const pokemonPin = z.object({
+  pokemon: z.string(),
+  position: z.object({
+    latitude: z.number(),
+    longitude: z.number(),
+  }),
+});
+
+export type PokemonPin = z.infer<typeof pokemonPin>;

@@ -2,19 +2,20 @@ import React, { Dispatch, useState } from "react";
 import { Button, Modal, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { LatLng } from "react-native-maps";
+import { addPokemonPinToCache } from "../cache";
 
 type FoundPokemonModalProps = {
   display: boolean;
   setDisplay: Dispatch<React.SetStateAction<boolean>>;
-  pressDetails: LatLng | null;
+  pressPosition: LatLng | undefined;
 };
 export const FoundPokemonModal = ({
   display,
   setDisplay,
-  pressDetails,
+  pressPosition,
 }: FoundPokemonModalProps) => {
   const [pokeName, setPokeName] = useState("");
-  if (!pressDetails) {
+  if (!pressPosition) {
     return <></>;
   }
   return (
@@ -45,7 +46,10 @@ export const FoundPokemonModal = ({
                 disabled={pokeName === ""}
                 title="Add"
                 onPress={() => {
-                  console.log(pressDetails);
+                  addPokemonPinToCache({
+                    pokemon: pokeName,
+                    position: pressPosition,
+                  });
                 }}
               ></Button>
             </View>
