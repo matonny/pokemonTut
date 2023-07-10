@@ -2,7 +2,7 @@ import MapView, { LatLng, Marker } from "react-native-maps";
 import { StyleSheet, View } from "react-native";
 import { FoundPokemonModal } from "../Components/FoundPokemonModal";
 import { createContext, useEffect, useState } from "react";
-import { MapPinsContextType, PokemonPin } from "../types";
+import { MapPinsContextType, PokemonPin, Press } from "../types";
 import { getPokePinsFromCache } from "../cache";
 
 export const PinsContext = createContext<undefined | MapPinsContextType>(
@@ -11,7 +11,7 @@ export const PinsContext = createContext<undefined | MapPinsContextType>(
 
 export const MapTab = () => {
   const [showModal, setShowModal] = useState(false);
-  const [pressData, setPressData] = useState<undefined | LatLng>(undefined);
+  const [pressData, setPressData] = useState<undefined | Press>(undefined);
   const [storedPins, setStoredPins] = useState<undefined | PokemonPin[]>(
     undefined
   );
@@ -37,17 +37,26 @@ export const MapTab = () => {
         <FoundPokemonModal
           display={showModal}
           setDisplay={setShowModal}
-          pressPosition={pressData}
+          pressDetails={pressData}
         />
         <MapView
           style={styles.map}
           onLongPress={(event) => {
-            setPressData(event.nativeEvent.coordinate);
+            setPressData({
+              timeStamp: event.timeStamp,
+              position: event.nativeEvent.coordinate,
+            });
             setShowModal(true);
           }}
         >
           {storedPins?.map((pin) => {
-            return <Marker coordinate={pin.position} title={pin.pokemon} />;
+            return (
+              <Marker
+                coordinate={pin.position}
+                title={pin.pokemon}
+                key={pin.timeStamp}
+              />
+            );
           })}
         </MapView>
       </View>

@@ -1,25 +1,24 @@
 import React, { Dispatch, useContext, useState } from "react";
 import { Button, Modal, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { LatLng } from "react-native-maps";
 import { addPokemonPinToCache } from "../cache";
 import { PinsContext } from "../Containers/MapTab";
-import { MapPinsContextType } from "../types";
+import { MapPinsContextType, Press } from "../types";
 
 type FoundPokemonModalProps = {
   display: boolean;
   setDisplay: Dispatch<React.SetStateAction<boolean>>;
-  pressPosition: LatLng | undefined;
+  pressDetails: Press | undefined;
 };
 export const FoundPokemonModal = ({
   display,
   setDisplay,
-  pressPosition,
+  pressDetails,
 }: FoundPokemonModalProps) => {
   const [pokeName, setPokeName] = useState("");
   const { setMapPins } = useContext(PinsContext) as MapPinsContextType;
 
-  if (!pressPosition) {
+  if (!pressDetails) {
     return <></>;
   }
   const closeModal = () => {
@@ -55,7 +54,8 @@ export const FoundPokemonModal = ({
                 onPress={() => {
                   const newPin = {
                     pokemon: pokeName,
-                    position: pressPosition,
+                    position: pressDetails.position,
+                    timeStamp: pressDetails.timeStamp,
                   };
                   addPokemonPinToCache(newPin);
                   setMapPins((prevMapPins) => prevMapPins?.concat([newPin]));
