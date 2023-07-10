@@ -9,7 +9,7 @@ export const FavPokeContext = createContext<undefined | FavPokeContextType>(
 );
 
 export default function App() {
-  const [favPoke, setFavPoke] = useState<null | number>(null);
+  const [favPoke, setFavPoke] = useState<undefined | number>(undefined);
 
   useEffect(() => {
     const initialiseFavPoke = async () => {

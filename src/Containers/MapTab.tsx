@@ -47,7 +47,7 @@ export const MapTab = () => {
           }}
         >
           {storedPins?.map((pin) => {
-            return <Marker coordinate={pin.position} />;
+            return <Marker coordinate={pin.position} title={pin.pokemon} />;
           })}
         </MapView>
       </View>

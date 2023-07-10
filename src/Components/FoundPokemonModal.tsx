@@ -26,6 +26,7 @@ export const FoundPokemonModal = ({
     setDisplay(false);
     setPokeName("");
   };
+
   return (
     <Modal
       visible={display}
@@ -36,11 +37,13 @@ export const FoundPokemonModal = ({
       <View style={styles.modal}>
         <View style={styles.sndModal}>
           <Text style={styles.title}>Add a newfound pokemon!</Text>
+
           <TextInput
             style={styles.input}
             value={pokeName}
             onChangeText={(event) => setPokeName(event)}
           ></TextInput>
+
           <View style={styles.btnBar}>
             <View style={styles.btn}>
               <Button title="Close" color="red" onPress={closeModal}></Button>
