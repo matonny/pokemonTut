@@ -78,3 +78,24 @@ export type FavPokeContextType = {
   favPoke: undefined | number;
   setFavPoke: Dispatch<React.SetStateAction<number | undefined>>;
 };
+
+export const registerSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string(),
+    confirmPassword: z.string(),
+  })
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        path: ["confirmPassword"],
+        code: "custom",
+        message: "The passwords do not match",
+      });
+    }
+  });
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
