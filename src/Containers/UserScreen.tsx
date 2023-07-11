@@ -4,23 +4,23 @@ import { LoginForm } from "../Components/LoginForm";
 import { RegisterForm } from "../Components/RegisterForm";
 
 export const UserScreen = () => {
-  const [isLogging, setIsLogging] = useState(false);
+  const [isLogging, setIsLogging] = useState(true);
 
   const formTitle = isLogging ? "Log in" : "Register";
-  const switchText = isLogging
-    ? "Don't have an account? "
-    : "Already have an account? ";
+  const switchMessage = isLogging
+    ? ["Don't have an account? ", "Register here"]
+    : ["Already have an account?", "Log in here"];
   const chosenForm = isLogging ? <LoginForm /> : <RegisterForm />;
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.text]}>{formTitle}</Text>
       {chosenForm}
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{switchText}</Text>
+        <Text style={styles.text}>{switchMessage[0]}</Text>
         <Pressable
           onPress={() => setIsLogging((prevIsLogging) => !prevIsLogging)}
         >
-          <Text style={styles.formChange}>{formTitle} here</Text>
+          <Text style={styles.formChange}> {switchMessage[1]}</Text>
         </Pressable>
       </View>
     </View>
